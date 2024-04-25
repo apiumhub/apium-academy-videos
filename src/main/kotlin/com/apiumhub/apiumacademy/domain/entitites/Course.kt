@@ -10,4 +10,8 @@ import java.util.*
 class CourseId(override val id: UUID) : EntityId()
 
 @Entity
-class Course(override val id: CourseId, val name: String) : AggregateRoot<CourseId>(id)
+class Course(override val id: CourseId, val name: String) : AggregateRoot<CourseId>(id) {
+    companion object {
+        fun create(name: String) = Course(CourseId(UUID.randomUUID()), name)
+    }
+}
