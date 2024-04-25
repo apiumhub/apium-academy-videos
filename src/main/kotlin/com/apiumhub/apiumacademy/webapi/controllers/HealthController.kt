@@ -1,4 +1,4 @@
-package com.apiumhub.apiumacademy
+package com.apiumhub.apiumacademy.webapi.controllers
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
