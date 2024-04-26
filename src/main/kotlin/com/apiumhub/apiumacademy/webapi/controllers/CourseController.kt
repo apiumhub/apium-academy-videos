@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class CourseController(val courseService: CourseService) {
-    @GetMapping("/courses{id}")
+    @GetMapping("/courses/{id}")
     fun getCourses(@PathVariable id: String) = courseService.findById(id)
 
     @PostMapping("/courses")
