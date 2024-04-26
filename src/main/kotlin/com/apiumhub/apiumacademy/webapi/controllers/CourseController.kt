@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class CourseController(val courseService: CourseService) {
     @GetMapping("/courses/{id}")
-    fun getCourses(@PathVariable id: String) = courseService.findById(id)
+    fun getCourse(@PathVariable id: String) = courseService.findById(id)
+
+    @GetMapping("/courses")
+    fun getCourses() = courseService.findAll()
 
     @PostMapping("/courses")
     fun createCourse(@RequestBody body: CreateCourseRequestDto) = courseService.insert(body)
