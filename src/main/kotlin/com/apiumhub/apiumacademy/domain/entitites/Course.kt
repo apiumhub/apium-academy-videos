@@ -25,8 +25,8 @@ class Course private constructor(
     @ElementCollection
     private val students: MutableSet<StudentId> = mutableSetOf()
 
-    fun addStudentToCourse(studentId: StudentId) {
-        if (students.count() == maxStudents.value)
+    fun registerStudent(studentId: StudentId) {
+        if (studentsCounter.value == maxStudents.value)
             throw StudentsInCourseLimitReachedException(maxStudents.value)
         studentsCounter++
         students.add(studentId)

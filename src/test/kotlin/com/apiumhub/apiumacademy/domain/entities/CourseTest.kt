@@ -25,7 +25,7 @@ class CourseTest {
         val courseName = "Some course name"
         val course = Course.create(CourseName(courseName), PositiveInteger(1))
         val student = Student.create(StudentName("Some student name"))
-        course.addStudentToCourse(student.id)
-        assertThrows<StudentsInCourseLimitReachedException> { course.addStudentToCourse(student.id) }
+        course.registerStudent(student.id)
+        assertThrows<StudentsInCourseLimitReachedException> { course.registerStudent(student.id) }
     }
 }
