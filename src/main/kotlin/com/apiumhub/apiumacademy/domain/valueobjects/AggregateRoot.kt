@@ -7,12 +7,11 @@ import org.springframework.data.domain.Persistable
 
 @MappedSuperclass
 abstract class AggregateRoot<ID : EntityId> : Persistable<ID> {
+
     @Transient
     private var isNew: Boolean = true
 
-    override fun isNew(): Boolean {
-        return isNew
-    }
+    override fun isNew() = isNew
 
     @PostLoad
     @PrePersist
