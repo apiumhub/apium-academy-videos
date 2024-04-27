@@ -1,7 +1,22 @@
 package com.apiumhub.apiumacademy.domain.valueobjects
 
-import jakarta.persistence.EmbeddedId
 import jakarta.persistence.MappedSuperclass
+import jakarta.persistence.PostLoad
+import jakarta.persistence.PrePersist
+import org.springframework.data.domain.Persistable
 
 @MappedSuperclass
-abstract class AggregateRoot<T : EntityId>(@EmbeddedId open val id: T)
+abstract class AggregateRoot<ID : EntityId> : Persistable<ID> {
+    @Transient
+    private var isNew: Boolean = true
+
+    override fun isNew(): Boolean {
+        return isNew
+    }
+
+    @PostLoad
+    @PrePersist
+    fun trackNotNew() {
+        isNew = false
+    }
+}
