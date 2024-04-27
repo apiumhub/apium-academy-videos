@@ -3,6 +3,7 @@ package com.apiumhub.apiumacademy.infrastructure.repositories
 import com.apiumhub.apiumacademy.domain.entitites.Course
 import com.apiumhub.apiumacademy.domain.repositories.CourseRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
+import com.apiumhub.apiumacademy.domain.valueobjects.shared.PositiveInteger
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -17,7 +18,7 @@ class CourseRepositoryTest {
 
     @Test
     fun `should insert new course`() {
-        val newCourse = Course.create(CourseName("Some name"))
+        val newCourse = Course.create(CourseName("Some name"), PositiveInteger(1))
         assertDoesNotThrow {
             val course = courseRepository.save(newCourse)
             assertNotNull(course)

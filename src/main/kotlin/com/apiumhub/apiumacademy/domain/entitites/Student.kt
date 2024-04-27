@@ -12,7 +12,7 @@ import java.util.*
 
 @Table(name = "Students")
 @Entity
-class Student(
+class Student private constructor(
     @EmbeddedId val studentId: StudentId,
     @Convert(converter = StudentNameConverter::class) val name: StudentName
 ) : AggregateRoot<StudentId>() {

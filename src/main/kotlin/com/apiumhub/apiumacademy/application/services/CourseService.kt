@@ -6,6 +6,7 @@ import com.apiumhub.apiumacademy.domain.entitites.Course
 import com.apiumhub.apiumacademy.domain.repositories.CourseRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
+import com.apiumhub.apiumacademy.domain.valueobjects.shared.PositiveInteger
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
@@ -19,7 +20,8 @@ class CourseService(private val courseRepository: CourseRepository) {
     fun insert(course: CreateCourseRequestDto) = CourseResponseDto.from(
         courseRepository.save(
             Course.create(
-                CourseName(course.name)
+                CourseName(course.name),
+                PositiveInteger(0)
             )
         )
     )
