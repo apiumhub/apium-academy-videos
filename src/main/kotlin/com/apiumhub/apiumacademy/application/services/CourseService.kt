@@ -7,13 +7,19 @@ import com.apiumhub.apiumacademy.domain.entitites.CourseId
 import com.apiumhub.apiumacademy.domain.repositories.CourseRepository
 import org.springframework.stereotype.Service
 import java.util.*
+import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CourseService(private val courseRepository: CourseRepository) {
-    fun findById(id: String) =
-        courseRepository.findById(CourseId(UUID.fromString(id))).map { CourseResponseDto(it.id.id.toString(), it.name) }
+    fun findById(id: String): CourseResponseDto? = courseRepository
+        .findById(CourseId(UUID.fromString(id)))
+        .map { CourseResponseDto(it.id.id.toString(), it.name) }
+        .getOrNull()
 
-    fun findAll() = courseRepository.findAll().map { CourseResponseDto(it.id.id.toString(), it.name) }
+    fun findAll() = courseRepository
+        .findAll()
+        .map { CourseResponseDto(it.id.id.toString(), it.name) }
 
-    fun insert(course: CreateCourseRequestDto) = courseRepository.save(Course.create(course.name))
+    fun insert(course: CreateCourseRequestDto) = courseRepository.
+    save(Course.create(course.name))
 }
