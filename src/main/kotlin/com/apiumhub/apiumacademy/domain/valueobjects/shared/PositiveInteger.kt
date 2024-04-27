@@ -3,6 +3,7 @@ package com.apiumhub.apiumacademy.domain.valueobjects.shared
 import jakarta.persistence.Embeddable
 import jakarta.persistence.Embedded
 
+@Suppress("JpaAttributeTypeInspection")
 @Embeddable
 data class PositiveInteger(@Embedded val value: Int) {
     init {
