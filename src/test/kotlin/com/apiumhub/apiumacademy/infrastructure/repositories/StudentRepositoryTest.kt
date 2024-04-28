@@ -3,6 +3,7 @@ package com.apiumhub.apiumacademy.infrastructure.repositories
 import com.apiumhub.apiumacademy.domain.entitites.Student
 import com.apiumhub.apiumacademy.domain.exceptions.StudentNotFoundException
 import com.apiumhub.apiumacademy.domain.repositories.StudentRepository
+import com.apiumhub.apiumacademy.domain.valueobjects.student.studentEmail.StudentEmail
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentName.StudentName
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -22,7 +23,7 @@ class StudentRepositoryTest {
 
     @Test //Dummy test to check repository & db integrity
     fun `should insert new student`() {
-        val newStudent = Student.create(StudentName("Some name"))
+        val newStudent = Student.create(StudentName("Some name"), StudentEmail("email@domain.com"))
         assertDoesNotThrow {
             val student = studentRepository.save(newStudent)
             assertNotNull(student)

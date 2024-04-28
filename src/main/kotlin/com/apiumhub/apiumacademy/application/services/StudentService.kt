@@ -4,6 +4,7 @@ import com.apiumhub.apiumacademy.application.dto.student.request.CreateStudentRe
 import com.apiumhub.apiumacademy.application.dto.student.response.StudentResponseDto
 import com.apiumhub.apiumacademy.domain.entitites.Student
 import com.apiumhub.apiumacademy.domain.repositories.StudentRepository
+import com.apiumhub.apiumacademy.domain.valueobjects.student.studentEmail.StudentEmail
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentName.StudentName
 import org.springframework.stereotype.Service
@@ -26,6 +27,11 @@ class StudentService(private val studentRepository: StudentRepository) {
     fun insert(student: CreateStudentRequestDto) =
         StudentResponseDto.from(
             studentRepository
-                .save(Student.create(StudentName(student.name)))
+                .save(
+                    Student.create(
+                        StudentName(student.name),
+                        StudentEmail(student.email)
+                    )
+                )
         )
 }
