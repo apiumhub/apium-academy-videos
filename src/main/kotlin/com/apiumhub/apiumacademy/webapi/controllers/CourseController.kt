@@ -23,6 +23,10 @@ class CourseController(val courseService: CourseService) {
     fun registerStudent(@PathVariable courseId: String, @PathVariable studentId: String) =
         courseService.registerStudentInCourse(courseId, studentId)
 
+    @PostMapping("{courseId}/unregister/{studentId}")
+    fun unregisterStudent(@PathVariable courseId: String, @PathVariable studentId: String) =
+        courseService.removeStudentFromCourse(courseId, studentId)
+
     @PostMapping("{courseId}/lessons")
     fun addLessonToCourse(@PathVariable courseId: String, @RequestBody body: CreateLessonRequestDto) =
         courseService.addLessonToCourse(courseId, body)

@@ -37,7 +37,14 @@ class CourseService(
     fun registerStudentInCourse(courseId: String, studentId: String) {
         val student = studentRepository.findStudentById(StudentId(studentId))
         val course = courseRepository.findCourseById(CourseId(courseId))
-        course.registerStudent(student.id)
+        course.registerStudent(student)
+        courseRepository.save(course)
+    }
+
+    fun removeStudentFromCourse(courseId: String, studentId: String) {
+        val student = studentRepository.findStudentById(StudentId(studentId))
+        val course = courseRepository.findCourseById(CourseId(courseId))
+        course.removeStudent(student)
         courseRepository.save(course)
     }
 

@@ -1,5 +1,6 @@
 package com.apiumhub.apiumacademy.domain.entitites
 
+import com.apiumhub.apiumacademy.domain.exceptions.StudentNotInCourseException
 import com.apiumhub.apiumacademy.domain.exceptions.StudentsInCourseLimitReachedException
 import com.apiumhub.apiumacademy.domain.valueobjects.AggregateRoot
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
@@ -30,13 +31,25 @@ class Course private constructor(
     @ElementCollection
     private val registeredStudentsIds: MutableSet<StudentId> = mutableSetOf()
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])//TODO Discuss this
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])//TODO Discuss EAGER fetch
     val lessons: MutableSet<Lesson> = mutableSetOf()
 
-    fun registerStudent(studentId: StudentId) {
+    fun registerStudent(student: Student) {
         if (currentRegisteredStudents.value == maxRegisteredStudents.value) throw StudentsInCourseLimitReachedException(maxRegisteredStudents.value)
         currentRegisteredStudents++
-        registeredStudentsIds.add(studentId)
+        registeredStudentsIds.add(student.id)
+    }
+
+    fun removeStudent(student: Student) {
+        if (!registeredStudentsIds.contains(student.id)) {
+            throw StudentNotInCourseException(student.id, courseId)
+        }
+        currentRegisteredStudents--
+        registeredStudentsIds.remove(student.id)
+    }
+
+    fun isStudentRegistered(student: Student): Boolean {
+        return registeredStudentsIds.contains(student.id)
     }
 
     fun addLesson(lesson: Lesson) {
