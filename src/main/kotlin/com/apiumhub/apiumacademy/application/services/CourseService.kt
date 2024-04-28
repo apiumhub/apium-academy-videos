@@ -35,5 +35,6 @@ class CourseService(
         val student = studentRepository.findStudentById(StudentId(studentId))
         val course = courseRepository.findCourseById(CourseId(courseId))
         course.registerStudent(student.id)
+        courseRepository.save(course)
     }
 }
