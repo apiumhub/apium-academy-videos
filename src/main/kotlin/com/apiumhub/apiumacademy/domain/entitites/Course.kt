@@ -30,8 +30,8 @@ class Course private constructor(
     @ElementCollection
     private val registeredStudentsIds: MutableSet<StudentId> = mutableSetOf()
 
-    @OneToMany(fetch = FetchType.EAGER)//TODO Discuss this
-    private val lessons: MutableSet<Lesson> = mutableSetOf()
+    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])//TODO Discuss this
+    val lessons: MutableSet<Lesson> = mutableSetOf()
 
     fun registerStudent(studentId: StudentId) {
         if (currentRegisteredStudents.value == maxRegisteredStudents.value) throw StudentsInCourseLimitReachedException(maxRegisteredStudents.value)

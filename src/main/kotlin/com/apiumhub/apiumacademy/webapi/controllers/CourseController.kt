@@ -26,4 +26,8 @@ class CourseController(val courseService: CourseService) {
     @PostMapping("{courseId}/lessons")
     fun addLessonToCourse(@PathVariable courseId: String, @RequestBody body: CreateLessonRequestDto) =
         courseService.addLessonToCourse(courseId, body)
+
+    @GetMapping("{courseId}/lessons")
+    fun getCourseLessons(@PathVariable courseId: String) =
+        courseService.getCourseLessons(courseId)
 }

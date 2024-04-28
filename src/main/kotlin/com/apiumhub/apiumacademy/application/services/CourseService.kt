@@ -1,6 +1,7 @@
 package com.apiumhub.apiumacademy.application.services
 
 import com.apiumhub.apiumacademy.application.dto.course.lessons.request.CreateLessonRequestDto
+import com.apiumhub.apiumacademy.application.dto.course.lessons.response.CourseLessonResponseDto
 import com.apiumhub.apiumacademy.application.dto.course.request.CreateCourseRequestDto
 import com.apiumhub.apiumacademy.application.dto.course.response.CourseResponseDto
 import com.apiumhub.apiumacademy.domain.entitites.Course
@@ -44,5 +45,10 @@ class CourseService(
         val course = courseRepository.findCourseById(CourseId(courseId))
         course.addLesson(Lesson.create(LessonName(lesson.name), LessonDescription(lesson.description)))
         courseRepository.save(course)
+    }
+
+    fun getCourseLessons(courseId: String): List<CourseLessonResponseDto> {
+        val course = courseRepository.findCourseById(CourseId(courseId))
+        return course.lessons.map { CourseLessonResponseDto.from(it) }
     }
 }
