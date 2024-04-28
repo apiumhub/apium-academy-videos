@@ -1,14 +1,18 @@
 package com.apiumhub.apiumacademy.infrastructure.repositories
 
 import com.apiumhub.apiumacademy.domain.entitites.Course
+import com.apiumhub.apiumacademy.domain.exceptions.CourseNotFoundException
 import com.apiumhub.apiumacademy.domain.repositories.CourseRepository
+import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.PositiveInteger
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
+import org.junit.jupiter.api.assertThrows
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
+import java.util.*
 
 @SpringBootTest
 class CourseRepositoryTest {
@@ -23,5 +27,10 @@ class CourseRepositoryTest {
             val course = courseRepository.save(newCourse)
             assertNotNull(course)
         }
+    }
+
+    @Test
+    fun `should throw exception when course not found by id`() {
+        assertThrows<CourseNotFoundException> { courseRepository.findCourseById(CourseId(UUID.randomUUID())) }
     }
 }

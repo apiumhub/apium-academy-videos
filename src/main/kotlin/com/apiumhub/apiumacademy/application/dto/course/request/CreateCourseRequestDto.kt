@@ -1,3 +1,3 @@
 package com.apiumhub.apiumacademy.application.dto.course.request
 
-data class CreateCourseRequestDto(val name: String)
+data class CreateCourseRequestDto(val name: String, val maxStudents: Int)

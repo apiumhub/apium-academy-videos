@@ -4,15 +4,20 @@ import com.apiumhub.apiumacademy.application.dto.course.request.CreateCourseRequ
 import com.apiumhub.apiumacademy.application.dto.course.response.CourseResponseDto
 import com.apiumhub.apiumacademy.domain.entitites.Course
 import com.apiumhub.apiumacademy.domain.repositories.CourseRepository
+import com.apiumhub.apiumacademy.domain.repositories.StudentRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.PositiveInteger
+import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
 import org.springframework.stereotype.Service
 import java.util.*
 import kotlin.jvm.optionals.getOrNull
 
 @Service
-class CourseService(private val courseRepository: CourseRepository) {
+class CourseService(
+    private val studentRepository: StudentRepository,
+    private val courseRepository: CourseRepository
+) {
     fun findById(id: String): CourseResponseDto? = courseRepository.findById(CourseId(UUID.fromString(id))).map { CourseResponseDto.from(it) }.getOrNull()
 
     fun findAll() = courseRepository.findAll().map { CourseResponseDto.from(it) }
@@ -21,8 +26,14 @@ class CourseService(private val courseRepository: CourseRepository) {
         courseRepository.save(
             Course.create(
                 CourseName(course.name),
-                PositiveInteger(0)
+                PositiveInteger(course.maxStudents)
             )
         )
     )
+
+    fun registerStudentInCourse(courseId: String, studentId: String) {
+        val student = studentRepository.findStudentById(StudentId(studentId))
+        val course = courseRepository.findCourseById(CourseId(courseId))
+        course.registerStudent(student.id)
+    }
 }
