@@ -5,9 +5,11 @@ import com.apiumhub.apiumacademy.domain.valueobjects.AggregateRoot
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseNameConverter
-import com.apiumhub.apiumacademy.domain.valueobjects.course.module.moduleId.LessonId
-import com.apiumhub.apiumacademy.domain.valueobjects.course.module.moduleName.LessonName
-import com.apiumhub.apiumacademy.domain.valueobjects.course.module.moduleName.LessonNameConverter
+import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonDescription.LessonDescription
+import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonDescription.LessonDescriptionConverter
+import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonId.LessonId
+import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonName.LessonName
+import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonName.LessonNameConverter
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.PositiveInteger
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.PositiveIntegerConverter
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
@@ -51,10 +53,11 @@ class Course private constructor(
 @Entity
 @Table(name = "Lessons")
 class Lesson(
-    @EmbeddedId val moduleId: LessonId,
-    @Convert(converter = LessonNameConverter::class) val name: LessonName
+    @EmbeddedId val id: LessonId,
+    @Convert(converter = LessonNameConverter::class) val name: LessonName,
+    @Convert(converter = LessonDescriptionConverter::class) val description: LessonDescription
 ) {
     companion object {
-        fun create(name: LessonName) = Lesson(LessonId(UUID.randomUUID()), name)
+        fun create(name: LessonName, description: LessonDescription) = Lesson(LessonId(UUID.randomUUID()), name, description)
     }
 }
