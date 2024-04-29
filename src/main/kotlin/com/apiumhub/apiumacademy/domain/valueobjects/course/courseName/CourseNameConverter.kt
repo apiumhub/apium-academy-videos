@@ -7,17 +7,9 @@ import jakarta.persistence.Converter
 //TODO This should be in the infrastructure layer as it's related to persistance
 @Converter(autoApply = true)
 class CourseNameConverter: AttributeConverter<CourseName, String?> {
-    override fun convertToDatabaseColumn(attribute: CourseName?): String {
-        if (null == attribute) {
-            return ""
-        }
-        return attribute.value
-    }
+    override fun convertToDatabaseColumn(attribute: CourseName?) =
+        attribute?.value.orEmpty()
 
-    override fun convertToEntityAttribute(dbData: String?): CourseName {
-        if (null == dbData) {
-            return CourseName("")
-        }
-        return CourseName(dbData)
-    }
+    override fun convertToEntityAttribute(dbData: String?) =
+        CourseName(dbData.orEmpty())
 }

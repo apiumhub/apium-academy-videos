@@ -12,11 +12,7 @@ data class PositiveInteger(@Embedded val value: Int) {
         }
     }
 
-    operator fun inc(): PositiveInteger {
-        return PositiveInteger(value + 1)
-    }
+    operator fun inc() = PositiveInteger(value + 1)
 
-    operator fun dec(): PositiveInteger {
-        return PositiveInteger(value - 1)
-    }
+    operator fun dec() = PositiveInteger(value - 1)
 }

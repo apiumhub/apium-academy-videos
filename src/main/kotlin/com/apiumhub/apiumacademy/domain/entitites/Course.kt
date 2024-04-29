@@ -2,7 +2,6 @@ package com.apiumhub.apiumacademy.domain.entitites
 
 import com.apiumhub.apiumacademy.domain.exceptions.StudentNotInCourseException
 import com.apiumhub.apiumacademy.domain.exceptions.StudentsInCourseLimitReachedException
-import com.apiumhub.apiumacademy.domain.valueobjects.AggregateRoot
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseNameConverter
@@ -35,7 +34,9 @@ class Course private constructor(
     val lessons: MutableSet<Lesson> = mutableSetOf()
 
     fun registerStudent(student: Student) {
-        if (currentRegisteredStudents.value == maxRegisteredStudents.value) throw StudentsInCourseLimitReachedException(maxRegisteredStudents.value)
+        if (currentRegisteredStudents.value == maxRegisteredStudents.value) throw StudentsInCourseLimitReachedException(
+            maxRegisteredStudents.value
+        )
         currentRegisteredStudents++
         registeredStudentsIds.add(student.id)
     }
@@ -59,7 +60,8 @@ class Course private constructor(
     override fun getId() = courseId
 
     companion object {
-        fun create(name: CourseName, maxStudents: PositiveInteger) = Course(CourseId(UUID.randomUUID()), name, maxStudents)
+        fun create(name: CourseName, maxStudents: PositiveInteger) =
+            Course(CourseId(UUID.randomUUID()), name, maxStudents)
     }
 }
 
@@ -71,6 +73,7 @@ class Lesson(
     @Convert(converter = LessonDescriptionConverter::class) val description: LessonDescription
 ) {
     companion object {
-        fun create(name: LessonName, description: LessonDescription) = Lesson(LessonId(UUID.randomUUID()), name, description)
+        fun create(name: LessonName, description: LessonDescription) =
+            Lesson(LessonId(UUID.randomUUID()), name, description)
     }
 }

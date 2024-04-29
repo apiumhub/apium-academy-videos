@@ -2,6 +2,7 @@ package com.apiumhub.apiumacademy.application.services
 
 import com.apiumhub.apiumacademy.application.dto.student.request.CreateStudentRequestDto
 import com.apiumhub.apiumacademy.application.dto.student.response.StudentResponseDto
+import com.apiumhub.apiumacademy.application.dto.student.response.toStudentDto
 import com.apiumhub.apiumacademy.domain.entitites.Student
 import com.apiumhub.apiumacademy.domain.repositories.StudentRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentEmail.StudentEmail
@@ -16,22 +17,20 @@ class StudentService(private val studentRepository: StudentRepository) {
     fun findById(id: String): StudentResponseDto? =
         studentRepository
             .findById(StudentId(UUID.fromString(id)))
-            .map { StudentResponseDto.from(it) }
             .getOrNull()
+            ?.toStudentDto()
 
     fun findAll() =
         studentRepository
             .findAll()
-            .map { StudentResponseDto.from(it) }
+            .map { it.toStudentDto() }
 
     fun insert(student: CreateStudentRequestDto) =
-        StudentResponseDto.from(
-            studentRepository
-                .save(
-                    Student.create(
-                        StudentName(student.name),
-                        StudentEmail(student.email)
-                    )
+        studentRepository
+            .save(
+                Student.create(
+                    StudentName(student.name),
+                    StudentEmail(student.email)
                 )
-        )
+            ).toStudentDto()
 }

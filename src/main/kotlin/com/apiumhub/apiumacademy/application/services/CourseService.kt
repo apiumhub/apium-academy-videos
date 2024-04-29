@@ -2,8 +2,10 @@ package com.apiumhub.apiumacademy.application.services
 
 import com.apiumhub.apiumacademy.application.dto.course.lessons.request.CreateLessonRequestDto
 import com.apiumhub.apiumacademy.application.dto.course.lessons.response.CourseLessonResponseDto
+import com.apiumhub.apiumacademy.application.dto.course.lessons.response.toCourseLessonDto
 import com.apiumhub.apiumacademy.application.dto.course.request.CreateCourseRequestDto
 import com.apiumhub.apiumacademy.application.dto.course.response.CourseResponseDto
+import com.apiumhub.apiumacademy.application.dto.course.response.toCourseDto
 import com.apiumhub.apiumacademy.domain.entitites.Course
 import com.apiumhub.apiumacademy.domain.entitites.Lesson
 import com.apiumhub.apiumacademy.domain.repositories.CourseRepository
@@ -22,17 +24,16 @@ import kotlin.jvm.optionals.getOrNull
 class CourseService(
     private val studentRepository: StudentRepository, private val courseRepository: CourseRepository
 ) {
-    fun findById(id: String): CourseResponseDto? = courseRepository.findById(CourseId(UUID.fromString(id))).map { CourseResponseDto.from(it) }.getOrNull()
+    fun findById(id: String): CourseResponseDto? = courseRepository.findById(CourseId(id)).getOrNull()?.toCourseDto()
 
-    fun findAll() = courseRepository.findAll().map { CourseResponseDto.from(it) }
+    fun findAll() = courseRepository.findAll().map { it.toCourseDto() }
 
-    fun insert(course: CreateCourseRequestDto) = CourseResponseDto.from(
+    fun insert(course: CreateCourseRequestDto) =
         courseRepository.save(
             Course.create(
                 CourseName(course.name), PositiveInteger(course.maxStudents)
             )
-        )
-    )
+        ).toCourseDto()
 
     fun registerStudentInCourse(courseId: String, studentId: String) {
         val student = studentRepository.findStudentById(StudentId(studentId))
@@ -56,6 +57,6 @@ class CourseService(
 
     fun getCourseLessons(courseId: String): List<CourseLessonResponseDto> {
         val course = courseRepository.findCourseById(CourseId(courseId))
-        return course.lessons.map { CourseLessonResponseDto.from(it) }
+        return course.lessons.map { it.toCourseLessonDto() }
     }
 }

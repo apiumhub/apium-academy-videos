@@ -1,5 +1,6 @@
-package com.apiumhub.apiumacademy.domain.valueobjects
+package com.apiumhub.apiumacademy.domain.entitites
 
+import com.apiumhub.apiumacademy.domain.valueobjects.EntityId
 import jakarta.persistence.MappedSuperclass
 import jakarta.persistence.PostLoad
 import jakarta.persistence.PrePersist

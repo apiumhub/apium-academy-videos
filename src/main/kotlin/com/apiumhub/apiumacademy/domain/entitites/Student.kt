@@ -1,6 +1,5 @@
 package com.apiumhub.apiumacademy.domain.entitites
 
-import com.apiumhub.apiumacademy.domain.valueobjects.AggregateRoot
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentEmail.StudentEmail
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentEmail.StudentEmailConverter
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
