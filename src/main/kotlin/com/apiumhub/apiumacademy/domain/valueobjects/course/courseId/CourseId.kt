@@ -7,4 +7,5 @@ import java.util.*
 @Embeddable
 class CourseId(override val id: UUID) : EntityId() {
     constructor(id: String) : this(UUID.fromString(id))
+    constructor() : this(UUID.randomUUID())
 }

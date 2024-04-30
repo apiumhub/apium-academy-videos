@@ -14,7 +14,7 @@ import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
 import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonDescription.LessonDescription
 import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonName.LessonName
-import com.apiumhub.apiumacademy.domain.valueobjects.shared.PositiveInteger
+import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveInteger
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull

@@ -10,11 +10,10 @@ import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonDescrip
 import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonId.LessonId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonName.LessonName
 import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonName.LessonNameConverter
-import com.apiumhub.apiumacademy.domain.valueobjects.shared.PositiveInteger
-import com.apiumhub.apiumacademy.domain.valueobjects.shared.PositiveIntegerConverter
+import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveInteger
+import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveIntegerConverter
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
 import jakarta.persistence.*
-import java.util.*
 
 @Entity
 @Table(name = "Courses")
@@ -61,7 +60,7 @@ class Course private constructor(
 
     companion object {
         fun create(name: CourseName, maxStudents: PositiveInteger) =
-            Course(CourseId(UUID.randomUUID()), name, maxStudents)
+            Course(CourseId(), name, maxStudents)
     }
 }
 
@@ -74,6 +73,6 @@ class Lesson(
 ) {
     companion object {
         fun create(name: LessonName, description: LessonDescription) =
-            Lesson(LessonId(UUID.randomUUID()), name, description)
+            Lesson(LessonId(), name, description)
     }
 }

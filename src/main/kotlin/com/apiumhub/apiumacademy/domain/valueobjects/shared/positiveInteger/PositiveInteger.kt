@@ -1,4 +1,4 @@
-package com.apiumhub.apiumacademy.domain.valueobjects.shared
+package com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger
 
 import jakarta.persistence.Embeddable
 import jakarta.persistence.Embedded

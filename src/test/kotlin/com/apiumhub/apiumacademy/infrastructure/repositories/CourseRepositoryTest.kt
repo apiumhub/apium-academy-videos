@@ -5,7 +5,7 @@ import com.apiumhub.apiumacademy.domain.exceptions.CourseNotFoundException
 import com.apiumhub.apiumacademy.domain.repositories.CourseRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
-import com.apiumhub.apiumacademy.domain.valueobjects.shared.PositiveInteger
+import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveInteger
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test

@@ -1,6 +1,7 @@
 package com.apiumhub.apiumacademy
 
 import com.apiumhub.apiumacademy.domain.repositories.UserRepository
+import com.apiumhub.apiumacademy.domain.valueobjects.shared.email.Email
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -16,8 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 class ApplicationConfiguration(private val userRepository: UserRepository) {
     @Bean
     fun userDetailsService(): UserDetailsService {
-        return UserDetailsService { username: String? ->
-            userRepository.findByEmail(username!!)
+        return UserDetailsService { username: String ->
+            userRepository.findByEmail(Email(username))
                 .orElseThrow { UsernameNotFoundException("User not found") }
         }
     }

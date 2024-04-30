@@ -6,12 +6,13 @@ import com.apiumhub.apiumacademy.domain.entitites.auth.RoleEnum
 import com.apiumhub.apiumacademy.domain.entitites.auth.User
 import com.apiumhub.apiumacademy.domain.repositories.RoleRepository
 import com.apiumhub.apiumacademy.domain.repositories.UserRepository
+import com.apiumhub.apiumacademy.domain.valueobjects.shared.email.Email
+import com.apiumhub.apiumacademy.domain.valueobjects.user.password.Password
 import com.apiumhub.apiumacademy.domain.valueobjects.user.userId.UserId
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import java.util.*
 
 @Service
 class AuthenticationService(
@@ -24,9 +25,9 @@ class AuthenticationService(
         val memberRole = roleRepository.findByName(RoleEnum.MEMBER)
         return userRepository.save(
             User(
-                UserId(UUID.randomUUID()),
-                input.email,
-                passwordEncoder.encode(input.password),
+                UserId(),
+                Email(input.email),
+                Password(passwordEncoder.encode(input.password)),
                 memberRole.get()
             )
         )
@@ -34,6 +35,6 @@ class AuthenticationService(
 
     fun authenticate(input: LoginUserRequestDto): User {
         authenticationManager.authenticate(UsernamePasswordAuthenticationToken(input.email, input.password))
-        return userRepository.findByEmail(input.email).orElseThrow()
+        return userRepository.findByEmail(Email(input.email)).orElseThrow()
     }
 }

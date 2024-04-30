@@ -1,4 +1,4 @@
-package com.apiumhub.apiumacademy.domain.valueobjects.student.studentEmail
+package com.apiumhub.apiumacademy.domain.valueobjects.shared.email
 
 import com.apiumhub.apiumacademy.domain.exceptions.BlockedEmailDomainException
 import com.apiumhub.apiumacademy.domain.exceptions.InvalidEmailException
@@ -8,7 +8,7 @@ import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 @Embeddable
-class StudentEmail(@Embedded val value: String) {
+class Email(@Embedded val value: String) {
 
     @Transient
     val blockedDomains = listOf("test.com", "example.com")

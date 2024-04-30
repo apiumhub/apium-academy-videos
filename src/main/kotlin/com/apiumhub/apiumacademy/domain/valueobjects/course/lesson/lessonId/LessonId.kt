@@ -5,4 +5,7 @@ import jakarta.persistence.Embeddable
 import java.util.*
 
 @Embeddable
-class LessonId(override val id: UUID) : EntityId()
+class LessonId(override val id: UUID) : EntityId() {
+    constructor(id: String) : this(UUID.fromString(id))
+    constructor() : this(UUID.randomUUID())
+}

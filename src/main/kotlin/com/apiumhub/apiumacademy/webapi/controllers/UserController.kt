@@ -1,5 +1,7 @@
 package com.apiumhub.apiumacademy.webapi.controllers
 
+import com.apiumhub.apiumacademy.application.dto.user.response.UserResponseDto
+import com.apiumhub.apiumacademy.application.dto.user.response.toUserDto
 import com.apiumhub.apiumacademy.application.services.UserService
 import com.apiumhub.apiumacademy.domain.entitites.auth.User
 import org.springframework.http.ResponseEntity
@@ -16,16 +18,16 @@ class UserController(private val userService: UserService) {
 
     @GetMapping("/me")
     @PreAuthorize("isAuthenticated()")
-    fun authenticatedUser(): ResponseEntity<User> {
+    fun authenticatedUser(): ResponseEntity<UserResponseDto> {
         val authentication: Authentication = SecurityContextHolder.getContext().authentication
         val currentUser: User = authentication.principal as User
-        return ResponseEntity.ok(currentUser)
+        return ResponseEntity.ok(currentUser.toUserDto())
     }
 
     @GetMapping("/")
     @PreAuthorize("hasAnyRole('ADMIN')")
-    fun allUsers(): ResponseEntity<List<User>> {
-        val users: List<User> = userService.allUsers()
+    fun allUsers(): ResponseEntity<List<UserResponseDto>> {
+        val users: List<UserResponseDto> = userService.allUsers()
         return ResponseEntity.ok(users)
     }
 }
