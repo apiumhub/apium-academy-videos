@@ -5,7 +5,7 @@ import com.apiumhub.apiumacademy.application.dto.user.request.RegisterUserReques
 import com.apiumhub.apiumacademy.application.dto.user.response.LoginUserResponseDto
 import com.apiumhub.apiumacademy.application.services.AuthenticationService
 import com.apiumhub.apiumacademy.application.services.JwtService
-import com.apiumhub.apiumacademy.domain.entitites.User
+import com.apiumhub.apiumacademy.domain.entitites.auth.User
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

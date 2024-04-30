@@ -1,10 +1,9 @@
-package com.apiumhub.apiumacademy.domain.entitites
+package com.apiumhub.apiumacademy.domain.entitites.auth
 
 import com.apiumhub.apiumacademy.domain.valueobjects.user.userId.UserId
-import jakarta.persistence.EmbeddedId
-import jakarta.persistence.Entity
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
 
@@ -13,7 +12,10 @@ import org.springframework.security.core.userdetails.UserDetails
 class User(
     @EmbeddedId val userId: UserId,
     val email: String,
-    private val passwordStored: String
+    val passwordStored: String,
+    @OneToOne(cascade = [CascadeType.REMOVE])
+    @JoinColumn(name = "role", referencedColumnName = "id", nullable = false)
+    val role: Role
 ) : UserDetails {
 
     override fun getPassword(): String {
@@ -25,7 +27,9 @@ class User(
     }
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return emptyList()
+        val authority = SimpleGrantedAuthority("ROLE_" + role.name.toString())
+
+        return listOf(authority)
     }
 
     override fun isAccountNonExpired(): Boolean {
@@ -44,3 +48,4 @@ class User(
         return true
     }
 }
+

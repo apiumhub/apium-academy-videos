@@ -53,5 +53,9 @@ Los requisitos son los siguientes:
 - El administrador puede modificar cualquier tipo de información de los usuarios, cursos, lecciones, contenido
   multimedia o pagos.
 
-Authentication with jwt and roles in SpringBoot 3.x
-article: https://medium.com/@tericcabrel/implement-jwt-authentication-in-a-spring-boot-3-application-5839e4fd8fac
+Authentication with jwt and roles in SpringBoot 3.x article:
+
+(1) -
+Authentication https://medium.com/@tericcabrel/implement-jwt-authentication-in-a-spring-boot-3-application-5839e4fd8fac
+
+(2) - RBAC https://medium.com/@tericcabrel/implement-role-based-access-control-in-spring-boot-3-a31c87c2be5c
