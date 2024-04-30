@@ -52,3 +52,6 @@ Los requisitos son los siguientes:
 - El administrador puede asignar roles a los usuarios, siendo estos estudiantes, profesores y/o administradores
 - El administrador puede modificar cualquier tipo de información de los usuarios, cursos, lecciones, contenido
   multimedia o pagos.
+
+Authentication with jwt and roles in SpringBoot 3.x
+article: https://medium.com/@tericcabrel/implement-jwt-authentication-in-a-spring-boot-3-application-5839e4fd8fac
