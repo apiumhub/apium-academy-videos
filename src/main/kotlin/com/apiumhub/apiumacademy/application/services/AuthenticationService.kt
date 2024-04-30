@@ -8,7 +8,6 @@ import com.apiumhub.apiumacademy.domain.repositories.RoleRepository
 import com.apiumhub.apiumacademy.domain.repositories.UserRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.email.Email
 import com.apiumhub.apiumacademy.domain.valueobjects.user.password.Password
-import com.apiumhub.apiumacademy.domain.valueobjects.user.userId.UserId
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -22,13 +21,15 @@ class AuthenticationService(
     private val roleRepository: RoleRepository
 ) {
     fun signup(input: RegisterUserRequestDto): User {
+        val userExists = userRepository.findByEmail(Email(input.email))
+        if (userExists.isPresent)
+            return userExists.get()
         val memberRole = roleRepository.findByName(RoleEnum.MEMBER)
         return userRepository.save(
-            User(
-                UserId(),
+            User.create(
                 Email(input.email),
                 Password(passwordEncoder.encode(input.password)),
-                memberRole.get()
+                setOf(memberRole.get())
             )
         )
     }

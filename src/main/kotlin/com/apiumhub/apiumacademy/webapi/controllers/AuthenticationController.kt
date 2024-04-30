@@ -3,6 +3,8 @@ package com.apiumhub.apiumacademy.webapi.controllers
 import com.apiumhub.apiumacademy.application.dto.user.request.LoginUserRequestDto
 import com.apiumhub.apiumacademy.application.dto.user.request.RegisterUserRequestDto
 import com.apiumhub.apiumacademy.application.dto.user.response.LoginUserResponseDto
+import com.apiumhub.apiumacademy.application.dto.user.response.UserResponseDto
+import com.apiumhub.apiumacademy.application.dto.user.response.toUserDto
 import com.apiumhub.apiumacademy.application.services.AuthenticationService
 import com.apiumhub.apiumacademy.application.services.JwtService
 import com.apiumhub.apiumacademy.domain.entitites.auth.User
@@ -16,9 +18,9 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class AuthenticationController(private val jwtService: JwtService, private val authenticationService: AuthenticationService) {
     @PostMapping("/signup")
-    fun register(@RequestBody registerUserDto: RegisterUserRequestDto): ResponseEntity<User> {
+    fun register(@RequestBody registerUserDto: RegisterUserRequestDto): ResponseEntity<UserResponseDto> {
         val registeredUser: User = authenticationService.signup(registerUserDto)
-        return ResponseEntity.ok(registeredUser)
+        return ResponseEntity.ok(registeredUser.toUserDto())
     }
 
     @PostMapping("/login")

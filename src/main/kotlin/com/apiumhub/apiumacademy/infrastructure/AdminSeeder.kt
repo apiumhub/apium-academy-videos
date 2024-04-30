@@ -7,7 +7,6 @@ import com.apiumhub.apiumacademy.domain.repositories.RoleRepository
 import com.apiumhub.apiumacademy.domain.repositories.UserRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.email.Email
 import com.apiumhub.apiumacademy.domain.valueobjects.user.password.Password
-import com.apiumhub.apiumacademy.domain.valueobjects.user.userId.UserId
 import org.springframework.context.ApplicationListener
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -19,15 +18,17 @@ class AdminSeeder(
     private val roleRepository: RoleRepository, private val userRepository: UserRepository, private val passwordEncoder: PasswordEncoder
 ) : ApplicationListener<ContextRefreshedEvent> {
     override fun onApplicationEvent(contextRefreshedEvent: ContextRefreshedEvent) {
-        val userDto = RegisterUserRequestDto("super.admin@customdomain.com", "123456", "First admin")
+        val userDto = RegisterUserRequestDto("admin@academy.com", "123456", "First admin")
 
         val optionalRole = roleRepository.findByName(RoleEnum.ADMIN)
         val optionalUser = userRepository.findByEmail(Email(userDto.email))
 
         if (optionalUser.isPresent || optionalRole.isEmpty) return
 
-        val user = User(
-            UserId(), Email(userDto.email), Password(passwordEncoder.encode(userDto.password)), optionalRole.get()
+        val user = User.create(
+            Email(userDto.email),
+            Password(passwordEncoder.encode(userDto.password)),
+            setOf(optionalRole.get())
         )
 
         userRepository.save<User>(user)

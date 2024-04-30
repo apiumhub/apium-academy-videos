@@ -9,4 +9,5 @@ import java.util.*
 @Repository
 interface RoleRepository : CrudRepository<Role, Int> {
     fun findByName(name: RoleEnum): Optional<Role>
+    fun findRolesByIdIn(name: List<Int>): Set<Role>
 }

@@ -1,12 +1,12 @@
 package com.apiumhub.apiumacademy.domain.entitites.auth
 
+import com.apiumhub.apiumacademy.domain.entitites.AggregateRoot
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.email.Email
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.email.EmailConverter
 import com.apiumhub.apiumacademy.domain.valueobjects.user.password.Password
 import com.apiumhub.apiumacademy.domain.valueobjects.user.password.PasswordConverter
 import com.apiumhub.apiumacademy.domain.valueobjects.user.userId.UserId
 import jakarta.persistence.*
-import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
@@ -16,43 +16,33 @@ class User(
     @EmbeddedId val userId: UserId,
     @Convert(converter = EmailConverter::class) val email: Email,
     @Convert(converter = PasswordConverter::class) val passwordStored: Password,
-    @OneToOne(cascade = [CascadeType.REMOVE])
-    @JoinColumn(name = "role", referencedColumnName = "id", nullable = false)
-    val role: Role
-) : UserDetails {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles")
+    val roles: MutableSet<Role>
+) : AggregateRoot<UserId>(), UserDetails {
 
-    override fun getPassword(): String {
-        return passwordStored.value
+    fun grantRoles(newRoles: Set<Role>) {
+        roles += newRoles
     }
 
-    override fun getUsername(): String {
-        return email.value
-    }
+    override fun getId() = userId
 
-    override fun getAuthorities(): Collection<GrantedAuthority> {
-        val authority = SimpleGrantedAuthority("ROLE_" + role.name.toString())
+    override fun getPassword() = passwordStored.value
 
-        return listOf(authority)
-    }
+    override fun getUsername() = email.value
 
-    override fun isAccountNonExpired(): Boolean {
-        return true
-    }
+    override fun getAuthorities() = roles.map { SimpleGrantedAuthority("ROLE_${it.name}") }
 
-    override fun isAccountNonLocked(): Boolean {
-        return true
-    }
+    override fun isAccountNonExpired() = true
 
-    override fun isCredentialsNonExpired(): Boolean {
-        return true
-    }
+    override fun isAccountNonLocked() = true
 
-    override fun isEnabled(): Boolean {
-        return true
-    }
+    override fun isCredentialsNonExpired() = true
+
+    override fun isEnabled() = true
 
     companion object {
-        fun create(email: Email, password: Password, role: Role) = User(UserId(), email, password, role)
+        fun create(email: Email, password: Password, role: Set<Role>) = User(UserId(), email, password, role.toMutableSet())
     }
 }
 

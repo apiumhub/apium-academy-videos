@@ -3,6 +3,7 @@ package com.apiumhub.apiumacademy.webapi.controllers
 import com.apiumhub.apiumacademy.application.dto.course.lessons.request.CreateLessonRequestDto
 import com.apiumhub.apiumacademy.application.dto.course.request.CreateCourseRequestDto
 import com.apiumhub.apiumacademy.application.services.CourseService
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -16,6 +17,7 @@ class CourseController(val courseService: CourseService) {
         courseService.findAll()
 
     @PostMapping
+    @PreAuthorize("hasRole('TEACHER')")
     fun createCourse(@RequestBody body: CreateCourseRequestDto) =
         courseService.insert(body)
 

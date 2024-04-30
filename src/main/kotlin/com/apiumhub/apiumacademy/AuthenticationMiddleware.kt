@@ -92,7 +92,7 @@ class SecurityConfiguration(
         }
             .authorizeHttpRequests {
                 it
-                    .requestMatchers("/auth/**")
+                    .requestMatchers("/auth/**", "/health")
                     .permitAll()
                     .anyRequest()
                     .authenticated()
