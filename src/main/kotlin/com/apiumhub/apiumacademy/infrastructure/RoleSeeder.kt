@@ -12,18 +12,11 @@ import java.util.*
 class RoleSeeder(private val roleRepository: RoleRepository) : ApplicationListener<ContextRefreshedEvent> {
 
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
-        val roleNames = arrayOf(RoleEnum.STUDENT, RoleEnum.ADMIN, RoleEnum.TEACHER)
-        val roleDescriptionMap = mapOf(
-            RoleEnum.MEMBER to "Member",
-            RoleEnum.STUDENT to "Student",
-            RoleEnum.TEACHER to "Teacher",
-            RoleEnum.ADMIN to "Admin"
-        )
-
-        Arrays.stream(roleNames).forEach { roleName ->
+        val roleNames = RoleEnum.entries
+        roleNames.forEach { roleName ->
             val optionalRole: Optional<Role> = this.roleRepository.findByName(roleName)
             optionalRole.ifPresentOrElse(System.out::println) {
-                val roleToCreate = Role(roleName, roleDescriptionMap[roleName])
+                val roleToCreate = Role(roleName)
                 this.roleRepository.save(roleToCreate)
             }
         }

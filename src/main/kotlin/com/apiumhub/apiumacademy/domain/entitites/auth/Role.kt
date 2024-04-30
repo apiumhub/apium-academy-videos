@@ -5,13 +5,11 @@ import jakarta.persistence.*
 @Table(name = "roles")
 @Entity
 class Role(
-    @Enumerated(EnumType.STRING) val name: RoleEnum,
-    val description: String?
+    @Enumerated(EnumType.STRING) val name: RoleEnum
 ) {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
-    private val id: Int? = null
+    private val id: Int = RoleEnum.valueOf(name.toString()).ordinal
 }
 
 enum class RoleEnum {
