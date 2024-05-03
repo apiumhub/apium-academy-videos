@@ -16,12 +16,13 @@ class User(
     @EmbeddedId val userId: UserId,
     @Convert(converter = EmailConverter::class) val email: Email,
     @Convert(converter = PasswordConverter::class) val passwordStored: Password,
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles")
-    val roles: MutableSet<Role>
+    @ElementCollection(targetClass = RoleEnum::class, fetch = FetchType.EAGER)
+    @CollectionTable
+    @Enumerated(EnumType.STRING)
+    val roles: MutableSet<RoleEnum>
 ) : AggregateRoot<UserId>(), UserDetails {
 
-    fun grantRoles(newRoles: Set<Role>) {
+    fun grantRoles(newRoles: Set<RoleEnum>) {
         roles += newRoles
     }
 
@@ -42,7 +43,14 @@ class User(
     override fun isEnabled() = true
 
     companion object {
-        fun create(email: Email, password: Password, role: Set<Role>) = User(UserId(), email, password, role.toMutableSet())
+        fun create(email: Email, password: Password, role: Set<RoleEnum>) =
+            User(UserId(), email, password, role.toMutableSet())
     }
 }
 
+enum class RoleEnum {
+    MEMBER,
+    STUDENT,
+    TEACHER,
+    ADMIN
+}

@@ -9,5 +9,5 @@ class PasswordConverter : AttributeConverter<Password, String?> {
         attribute?.value.orEmpty()
 
     override fun convertToEntityAttribute(dbData: String?) =
-        Password(dbData.orEmpty())
+        Password.withEncodedPassword(dbData.orEmpty())
 }

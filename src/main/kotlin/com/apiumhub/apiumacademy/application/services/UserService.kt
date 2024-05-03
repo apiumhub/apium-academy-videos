@@ -6,7 +6,6 @@ import com.apiumhub.apiumacademy.application.dto.user.response.toUserDto
 import com.apiumhub.apiumacademy.domain.entitites.auth.RoleEnum
 import com.apiumhub.apiumacademy.domain.entitites.auth.User
 import com.apiumhub.apiumacademy.domain.exceptions.UserNotFoundException
-import com.apiumhub.apiumacademy.domain.repositories.RoleRepository
 import com.apiumhub.apiumacademy.domain.repositories.UserRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.email.Email
 import com.apiumhub.apiumacademy.domain.valueobjects.user.password.Password
@@ -17,26 +16,24 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(
     private val userRepository: UserRepository,
-    private val roleRepository: RoleRepository,
     private val passwordEncoder: PasswordEncoder
 ) {
     fun allUsers(): List<UserResponseDto> = userRepository.findAll().map { it.toUserDto() }
 
     fun createAdministrator(input: RegisterUserRequestDto): UserResponseDto {
-        val optionalRole = roleRepository.findByName(RoleEnum.ADMIN)
+        val optionalRole = RoleEnum.ADMIN
 
         val user = User.create(
             Email(input.email),
-            Password(passwordEncoder.encode(input.password)),
-            setOf(optionalRole.get())
+            Password.withPlainPassword(input.password, passwordEncoder),
+            setOf(optionalRole)
         )
-
         return userRepository.save(user).toUserDto()
     }
 
     fun grantRoles(userId: String, roles: List<String>) {
         val user = userRepository.findById(UserId(userId)).orElseThrow { UserNotFoundException(userId) }
-        val newRolesEntities = roleRepository.findRolesByIdIn(roles.map { RoleEnum.valueOf(it.uppercase()).ordinal })
+        val newRolesEntities = roles.map { RoleEnum.valueOf(it.uppercase()) }.toSet()
         user.grantRoles(newRolesEntities)
         userRepository.save(user)
     }
