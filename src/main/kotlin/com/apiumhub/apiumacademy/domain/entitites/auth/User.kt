@@ -1,6 +1,7 @@
 package com.apiumhub.apiumacademy.domain.entitites.auth
 
 import com.apiumhub.apiumacademy.domain.entitites.AggregateRoot
+import com.apiumhub.apiumacademy.domain.events.UserRolesGrantedEvent
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.email.Email
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.email.EmailConverter
 import com.apiumhub.apiumacademy.domain.valueobjects.user.password.Password
@@ -9,6 +10,7 @@ import com.apiumhub.apiumacademy.domain.valueobjects.user.userId.UserId
 import jakarta.persistence.*
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
+
 
 @Table(name = "users")
 @Entity
@@ -20,9 +22,10 @@ class User(
     @CollectionTable
     @Enumerated(EnumType.STRING)
     val roles: MutableSet<RoleEnum>
-) : AggregateRoot<UserId>(), UserDetails {
+) : AggregateRoot<User, UserId>(), UserDetails {
 
     fun grantRoles(newRoles: Set<RoleEnum>) {
+        registerEvent(UserRolesGrantedEvent(userId, newRoles - roles))
         roles += newRoles
     }
 

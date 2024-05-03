@@ -21,7 +21,7 @@ class Course private constructor(
     @EmbeddedId val courseId: CourseId,
     @Convert(converter = CourseNameConverter::class) var name: CourseName,
     @Convert(converter = PositiveIntegerConverter::class) var maxRegisteredStudents: PositiveInteger,
-) : AggregateRoot<CourseId>() {
+) : AggregateRoot<Course, CourseId>() {
 
     @Convert(converter = PositiveIntegerConverter::class)
     private var currentRegisteredStudents: PositiveInteger = PositiveInteger(0)
