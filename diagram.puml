@@ -2,6 +2,10 @@
 
 entity Course {
   - CourseId id
+  - CourseName courseName
+  - PositiveInteger maxRegisteredStudents
+  - StudentId[] registeredStudents
+  - Tutor[] tutors
   - Module[] modules
   + registerStudent(Student student)
   + addTutor(Tutor tutor()
@@ -38,7 +42,7 @@ entity "User" {
 enum Roles {
 MEMBER,
 STUDENT,
-TEACHER,
+TUTOR,
 ADMIN
 }
 
