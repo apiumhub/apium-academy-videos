@@ -1,4 +1,4 @@
-package com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonName
+package com.apiumhub.apiumacademy.domain.valueobjects.modules.lesson.lessonName
 
 import jakarta.persistence.Embeddable
 import jakarta.persistence.Embedded

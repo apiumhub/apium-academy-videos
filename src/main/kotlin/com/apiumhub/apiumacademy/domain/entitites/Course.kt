@@ -1,15 +1,11 @@
 package com.apiumhub.apiumacademy.domain.entitites
 
+import com.apiumhub.apiumacademy.domain.entitites.modules.Module
 import com.apiumhub.apiumacademy.domain.exceptions.StudentNotInCourseException
 import com.apiumhub.apiumacademy.domain.exceptions.StudentsInCourseLimitReachedException
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseNameConverter
-import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonDescription.LessonDescription
-import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonDescription.LessonDescriptionConverter
-import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonId.LessonId
-import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonName.LessonName
-import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonName.LessonNameConverter
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveInteger
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveIntegerConverter
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
@@ -33,8 +29,8 @@ class Course private constructor(
     @ElementCollection
     private val registeredTeacherIds: MutableSet<TeacherId> = mutableSetOf()
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])//TODO Discuss EAGER fetch
-    val lessons: MutableSet<Lesson> = mutableSetOf()
+    @ManyToMany
+    private val modules: MutableSet<Module> = mutableSetOf()
 
     fun registerStudent(student: Student) {
         if (currentRegisteredStudents.value == maxRegisteredStudents.value) throw StudentsInCourseLimitReachedException(
@@ -68,27 +64,10 @@ class Course private constructor(
         return registeredTeacherIds.contains(teacher.id)
     }
 
-    fun addLesson(lesson: Lesson) {
-        lessons.add(lesson)
-    }
-
     override fun getId() = courseId
 
     companion object {
         fun create(name: CourseName, maxStudents: PositiveInteger) =
             Course(CourseId(), name, maxStudents)
-    }
-}
-
-@Entity
-@Table(name = "Lessons")
-class Lesson(
-    @EmbeddedId val id: LessonId,
-    @Convert(converter = LessonNameConverter::class) val name: LessonName,
-    @Convert(converter = LessonDescriptionConverter::class) val description: LessonDescription
-) {
-    companion object {
-        fun create(name: LessonName, description: LessonDescription) =
-            Lesson(LessonId(), name, description)
     }
 }

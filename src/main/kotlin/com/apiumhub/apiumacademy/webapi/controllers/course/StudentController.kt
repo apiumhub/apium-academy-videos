@@ -1,6 +1,5 @@
-package com.apiumhub.apiumacademy.webapi.controllers
+package com.apiumhub.apiumacademy.webapi.controllers.course
 
-import com.apiumhub.apiumacademy.application.dto.student.request.CreateStudentRequestDto
 import com.apiumhub.apiumacademy.application.services.StudentService
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*

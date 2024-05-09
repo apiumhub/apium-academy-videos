@@ -1,19 +1,15 @@
 package com.apiumhub.apiumacademy.application.services
 
-import com.apiumhub.apiumacademy.application.dto.course.lessons.request.CreateLessonRequestDto
-import com.apiumhub.apiumacademy.application.dto.course.lessons.response.CourseLessonResponseDto
-import com.apiumhub.apiumacademy.application.dto.course.lessons.response.toCourseLessonDto
+import com.apiumhub.apiumacademy.application.dto.module.lessons.request.CreateLessonRequestDto
+import com.apiumhub.apiumacademy.application.dto.module.lessons.response.CourseLessonResponseDto
 import com.apiumhub.apiumacademy.application.dto.course.request.CreateCourseRequestDto
 import com.apiumhub.apiumacademy.application.dto.course.response.CourseResponseDto
 import com.apiumhub.apiumacademy.application.dto.course.response.toCourseDto
 import com.apiumhub.apiumacademy.domain.entitites.Course
-import com.apiumhub.apiumacademy.domain.entitites.Lesson
 import com.apiumhub.apiumacademy.domain.repositories.CourseRepository
 import com.apiumhub.apiumacademy.domain.repositories.StudentRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
-import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonDescription.LessonDescription
-import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonName.LessonName
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveInteger
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
 import org.springframework.stereotype.Service
@@ -49,13 +45,15 @@ class CourseService(
     }
 
     fun addLessonToCourse(courseId: String, lesson: CreateLessonRequestDto) {
-        val course = courseRepository.findCourseById(CourseId(courseId))
-        course.addLesson(Lesson.create(LessonName(lesson.name), LessonDescription(lesson.description)))
-        courseRepository.save(course)
+        TODO()
+//        val course = courseRepository.findCourseById(CourseId(courseId))
+//        course.addLesson(Lesson.create(LessonName(lesson.name), LessonDescription(lesson.description)))
+//        courseRepository.save(course)
     }
 
     fun getCourseLessons(courseId: String): List<CourseLessonResponseDto> {
-        val course = courseRepository.findCourseById(CourseId(courseId))
-        return course.lessons.map { it.toCourseLessonDto() }
+        TODO()
+//        val course = courseRepository.findCourseById(CourseId(courseId))
+//        return course.lessons.map { it.toCourseLessonDto() }
     }
 }

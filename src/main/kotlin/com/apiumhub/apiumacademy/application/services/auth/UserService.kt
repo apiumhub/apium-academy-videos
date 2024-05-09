@@ -1,4 +1,4 @@
-package com.apiumhub.apiumacademy.application.services
+package com.apiumhub.apiumacademy.application.services.auth
 
 import com.apiumhub.apiumacademy.application.dto.user.request.RegisterUserRequestDto
 import com.apiumhub.apiumacademy.application.dto.user.response.UserResponseDto

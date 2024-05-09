@@ -1,8 +1,8 @@
-package com.apiumhub.apiumacademy.webapi.controllers
+package com.apiumhub.apiumacademy.webapi.controllers.auth
 
 import com.apiumhub.apiumacademy.application.dto.user.response.UserResponseDto
 import com.apiumhub.apiumacademy.application.dto.user.response.toUserDto
-import com.apiumhub.apiumacademy.application.services.UserService
+import com.apiumhub.apiumacademy.application.services.auth.UserService
 import com.apiumhub.apiumacademy.domain.entitites.auth.User
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize

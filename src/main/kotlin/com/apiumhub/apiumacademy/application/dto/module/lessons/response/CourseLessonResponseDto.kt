@@ -1,6 +1,6 @@
-package com.apiumhub.apiumacademy.application.dto.course.lessons.response
+package com.apiumhub.apiumacademy.application.dto.module.lessons.response
 
-import com.apiumhub.apiumacademy.domain.entitites.Lesson
+import com.apiumhub.apiumacademy.domain.entitites.modules.Lesson
 
 data class CourseLessonResponseDto(val name: String, val description: String)
 

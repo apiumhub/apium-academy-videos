@@ -1,12 +1,12 @@
-package com.apiumhub.apiumacademy.webapi.controllers
+package com.apiumhub.apiumacademy.webapi.controllers.auth
 
 import com.apiumhub.apiumacademy.application.dto.user.request.LoginUserRequestDto
 import com.apiumhub.apiumacademy.application.dto.user.request.RegisterUserRequestDto
 import com.apiumhub.apiumacademy.application.dto.user.response.LoginUserResponseDto
 import com.apiumhub.apiumacademy.application.dto.user.response.UserResponseDto
 import com.apiumhub.apiumacademy.application.dto.user.response.toUserDto
-import com.apiumhub.apiumacademy.application.services.AuthenticationService
-import com.apiumhub.apiumacademy.application.services.JwtService
+import com.apiumhub.apiumacademy.application.services.auth.AuthenticationService
+import com.apiumhub.apiumacademy.application.services.auth.JwtService
 import com.apiumhub.apiumacademy.domain.entitites.auth.User
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping

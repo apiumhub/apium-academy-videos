@@ -1,6 +1,6 @@
 package com.apiumhub.apiumacademy
 
-import com.apiumhub.apiumacademy.application.services.JwtService
+import com.apiumhub.apiumacademy.application.services.auth.JwtService
 import io.micrometer.common.lang.NonNull
 import jakarta.servlet.FilterChain
 import jakarta.servlet.ServletException
