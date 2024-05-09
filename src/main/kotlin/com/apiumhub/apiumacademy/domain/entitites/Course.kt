@@ -13,6 +13,7 @@ import com.apiumhub.apiumacademy.domain.valueobjects.course.lesson.lessonName.Le
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveInteger
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveIntegerConverter
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
+import com.apiumhub.apiumacademy.domain.valueobjects.teacher.teacherId.TeacherId
 import jakarta.persistence.*
 
 @Entity
@@ -28,6 +29,9 @@ class Course private constructor(
 
     @ElementCollection
     private val registeredStudentsIds: MutableSet<StudentId> = mutableSetOf()
+
+    @ElementCollection
+    private val registeredTeacherIds: MutableSet<TeacherId> = mutableSetOf()
 
     @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])//TODO Discuss EAGER fetch
     val lessons: MutableSet<Lesson> = mutableSetOf()
@@ -50,6 +54,18 @@ class Course private constructor(
 
     fun isStudentRegistered(student: Student): Boolean {
         return registeredStudentsIds.contains(student.id)
+    }
+
+    fun registerTeacher(teacher: Teacher) {
+        registeredTeacherIds.add(teacher.id)
+    }
+
+    fun removeTeacher(teacher: Teacher) {
+        registeredTeacherIds.remove(teacher.id)
+    }
+
+    fun isTeacherRegistered(teacher: Teacher): Boolean {
+        return registeredTeacherIds.contains(teacher.id)
     }
 
     fun addLesson(lesson: Lesson) {
