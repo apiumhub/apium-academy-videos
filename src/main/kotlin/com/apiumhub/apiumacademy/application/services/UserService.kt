@@ -33,8 +33,8 @@ class UserService(
 
     fun grantRoles(userId: String, roles: List<String>) {
         val user = userRepository.findById(UserId(userId)).orElseThrow { UserNotFoundException(userId) }
-        val newRolesEntities = roles.map { RoleEnum.valueOf(it.uppercase()) }.toSet()
-        user.grantRoles(newRolesEntities)
+        val newRolesEnums = roles.map { RoleEnum.valueOf(it.uppercase()) }.toSet()
+        user.grantRoles(newRolesEnums)
         userRepository.save(user)
     }
 }

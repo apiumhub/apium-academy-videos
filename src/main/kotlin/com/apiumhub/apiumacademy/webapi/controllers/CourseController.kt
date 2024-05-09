@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/v1/courses")
 class CourseController(val courseService: CourseService) {
     @GetMapping("{courseId}")
+    @PreAuthorize("hasRole('MEMBER')")
     fun getCourse(@PathVariable courseId: String) = courseService.findById(courseId)
 
     @GetMapping
+    @PreAuthorize("hasRole('MEMBER')")
     fun getCourses() =
         courseService.findAll()
 
@@ -22,18 +24,22 @@ class CourseController(val courseService: CourseService) {
         courseService.insert(body)
 
     @PostMapping("{courseId}/register/{studentId}")
+    @PreAuthorize("hasRole('STUDENT')")
     fun registerStudent(@PathVariable courseId: String, @PathVariable studentId: String) =
         courseService.registerStudentInCourse(courseId, studentId)
 
     @PostMapping("{courseId}/unregister/{studentId}")
+    @PreAuthorize("hasRole('STUDENT')")
     fun unregisterStudent(@PathVariable courseId: String, @PathVariable studentId: String) =
         courseService.removeStudentFromCourse(courseId, studentId)
 
     @PostMapping("{courseId}/lessons")
+    @PreAuthorize("hasRole('TEACHER')")
     fun addLessonToCourse(@PathVariable courseId: String, @RequestBody body: CreateLessonRequestDto) =
         courseService.addLessonToCourse(courseId, body)
 
     @GetMapping("{courseId}/lessons")
+    @PreAuthorize("hasRole('MEMBER')")
     fun getCourseLessons(@PathVariable courseId: String) =
         courseService.getCourseLessons(courseId)
 }

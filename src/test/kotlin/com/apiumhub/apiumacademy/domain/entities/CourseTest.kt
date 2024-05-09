@@ -5,9 +5,7 @@ import com.apiumhub.apiumacademy.domain.entitites.Student
 import com.apiumhub.apiumacademy.domain.exceptions.StudentNotInCourseException
 import com.apiumhub.apiumacademy.domain.exceptions.StudentsInCourseLimitReachedException
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
-import com.apiumhub.apiumacademy.domain.valueobjects.shared.email.Email
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveInteger
-import com.apiumhub.apiumacademy.domain.valueobjects.teacher.teacherName.TeacherName
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -15,7 +13,7 @@ import org.junit.jupiter.api.assertThrows
 class CourseTest {
     private val courseName = CourseName("Some course name")
     private val course = Course.create(courseName, PositiveInteger(1))
-    private val student = Student.create(TeacherName("Some student name"), Email("email@domain.com"))
+    private val student = Student.create()
 
     @Test
     fun `should create a course`() {
