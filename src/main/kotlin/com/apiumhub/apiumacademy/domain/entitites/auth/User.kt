@@ -11,7 +11,6 @@ import jakarta.persistence.*
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-
 @Table(name = "users")
 @Entity
 class User(
