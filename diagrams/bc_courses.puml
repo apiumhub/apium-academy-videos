@@ -43,6 +43,9 @@ entity TutoredLesson {
   + setTutor(Tutor)
 }
 
+entity NoExamLesson {
+}
+
 entity Student {
   - StudentId
 }
@@ -52,15 +55,16 @@ entity Tutor {
 
 SelfAssessableLesson <|-- Lesson
 TutoredLesson <|-- Lesson
+NoExamLesson <|-- Lesson
 
-Course "n" *-- "m" Module: contains
-Module "1" *-- "n" Lesson: contains
+Course "n" --o "m" Module: contains
+Module "1" --* "n" Lesson: contains
 
-Student "1" *-- "n" CourseStudent
-CourseStudent "n" *-- "1" Course
+Student "1" --o "n" CourseStudent
+CourseStudent "n" --o "1" Course
 
-Tutor "1" *-- "n" CourseTutor
-CourseTutor "n" *-- "1" Course
+Tutor "1" --o "n" CourseTutor
+CourseTutor "n" --o "1" Course
 
 
 @enduml

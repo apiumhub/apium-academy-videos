@@ -13,6 +13,6 @@ TUTOR,
 ADMIN
 }
 
-Role "n" o-- "m" User: hasAssigned
+Role "n" --* "m" User: hasAssigned
 
 @enduml

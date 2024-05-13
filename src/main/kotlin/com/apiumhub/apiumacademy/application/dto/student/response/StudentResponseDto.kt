@@ -4,4 +4,4 @@ import com.apiumhub.apiumacademy.domain.entitites.Student
 
 data class StudentResponseDto(val id: String)
 
-fun Student.toStudentDto() = StudentResponseDto(id.id.toString())
+fun Student.toStudentDto() = StudentResponseDto(studentId.toString())

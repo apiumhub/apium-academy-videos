@@ -1,11 +1,12 @@
 package com.apiumhub.apiumacademy.application.services
 
-import com.apiumhub.apiumacademy.application.dto.module.lessons.request.CreateLessonRequestDto
-import com.apiumhub.apiumacademy.application.dto.module.lessons.response.CourseLessonResponseDto
 import com.apiumhub.apiumacademy.application.dto.course.request.CreateCourseRequestDto
 import com.apiumhub.apiumacademy.application.dto.course.response.CourseResponseDto
 import com.apiumhub.apiumacademy.application.dto.course.response.toCourseDto
+import com.apiumhub.apiumacademy.application.dto.module.lessons.request.CreateLessonRequestDto
+import com.apiumhub.apiumacademy.application.dto.module.lessons.response.CourseLessonResponseDto
 import com.apiumhub.apiumacademy.domain.entitites.Course
+import com.apiumhub.apiumacademy.domain.entitites.CourseStudent
 import com.apiumhub.apiumacademy.domain.repositories.CourseRepository
 import com.apiumhub.apiumacademy.domain.repositories.StudentRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
@@ -31,15 +32,16 @@ class CourseService(
         ).toCourseDto()
 
     fun registerStudentInCourse(courseId: String, studentId: String) {
-        val student = studentRepository.findStudentById(StudentId(studentId))
-        val course = courseRepository.findCourseById(CourseId(courseId))
+        val student = studentRepository.findStudentByStudentId(StudentId(studentId))
+        val course = courseRepository.findCourseByCourseId(CourseId(courseId))
+        val courseStudent = CourseStudent.create(course, student)
         course.registerStudent(student)
         courseRepository.save(course)
     }
 
     fun removeStudentFromCourse(courseId: String, studentId: String) {
-        val student = studentRepository.findStudentById(StudentId(studentId))
-        val course = courseRepository.findCourseById(CourseId(courseId))
+        val student = studentRepository.findStudentByStudentId(StudentId(studentId))
+        val course = courseRepository.findCourseByCourseId(CourseId(courseId))
         course.removeStudent(student)
         courseRepository.save(course)
     }

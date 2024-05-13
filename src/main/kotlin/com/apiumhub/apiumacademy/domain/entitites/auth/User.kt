@@ -21,14 +21,12 @@ class User(
     @CollectionTable
     @Enumerated(EnumType.STRING)
     val roles: MutableSet<RoleEnum>
-) : AggregateRoot<User, UserId>(), UserDetails {
+) : AggregateRoot<UserId>(), UserDetails {
 
     fun grantRoles(newRoles: Set<RoleEnum>) {
-        registerEvent(UserRolesGrantedEvent(userId, newRoles - roles))
+        //TODO Emit event
         roles += newRoles
     }
-
-    override fun getId() = userId
 
     override fun getPassword() = passwordStored.value
 

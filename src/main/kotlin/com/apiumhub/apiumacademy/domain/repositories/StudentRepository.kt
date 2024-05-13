@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository
 @Repository
 interface StudentRepository : JpaRepository<Student, StudentId> {
 
-    fun findStudentById(studentId: StudentId): Student =
+    fun findStudentByStudentId(studentId: StudentId): Student =
         findById(studentId).orElseThrow { StudentNotFoundException(studentId) }
 }

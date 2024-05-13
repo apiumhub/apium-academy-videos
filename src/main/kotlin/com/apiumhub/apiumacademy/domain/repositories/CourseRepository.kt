@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CourseRepository : JpaRepository<Course, CourseId> {
-    fun findCourseById(courseId: CourseId): Course =
+    fun findCourseByCourseId(courseId: CourseId): Course =
         findById(courseId).orElseThrow { CourseNotFoundException(courseId) }
 }
