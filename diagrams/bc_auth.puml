@@ -1,0 +1,18 @@
+@startuml
+
+entity "User" {
+  Email
+  Password
+  Roles[]
+}
+
+enum Role {
+MEMBER,
+STUDENT,
+TUTOR,
+ADMIN
+}
+
+Role "n" o-- "m" User: hasAssigned
+
+@enduml

@@ -1,0 +1,66 @@
+@startuml
+
+entity Course {
+  - CourseId id
+  - CourseName courseName
+  - PositiveInteger maxRegisteredStudents
+  - StudentId[] registeredStudents
+  - Tutor[] tutors
+  - Module[] modules
+  + registerStudent(Student)
+  + removeStudent(Student)
+  + addTutor(Tutor)
+  + removeTutor(Tutor)
+}
+
+entity CourseTutor {
+    - Student[] assignedStudents
+}
+
+entity CourseStudent {
+    - bool completed
+    - Date? completionDate
+}
+
+entity Module {
+  - ModuleId id
+  - Lesson[] lessons
+}
+
+abstract Lesson {
+  - LessonId id
+  - LessonName name
+  - LessonDescription description
+  - Content content
+}
+
+entity SelfAssessableLesson {
+
+}
+
+entity TutoredLesson {
+  - Tutor
+  + setTutor(Tutor)
+}
+
+entity Student {
+  - StudentId
+}
+entity Tutor {
+  - TutorId
+}
+
+SelfAssessableLesson <|-- Lesson
+TutoredLesson <|-- Lesson
+
+Course "n" *-- "m" Module: contains
+Module "1" *-- "n" Lesson: contains
+
+Student "1" *-- "n" CourseStudent
+CourseStudent "n" *-- "1" Course
+
+Tutor "1" *-- "n" CourseTutor
+CourseTutor "n" *-- "1" Course
+
+
+@enduml
