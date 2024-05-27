@@ -6,6 +6,7 @@ import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
 import com.apiumhub.apiumacademy.domain.valueobjects.user.userId.UserId
 import jakarta.persistence.*
 import java.util.*
+import kotlin.jvm.Transient
 
 @Entity
 @Table(name = "Students")
