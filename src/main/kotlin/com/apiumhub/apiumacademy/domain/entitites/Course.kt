@@ -29,7 +29,7 @@ class Course private constructor(
     @ElementCollection
     private val registeredTeacherIds: MutableSet<TeacherId> = mutableSetOf()
 
-    @ManyToMany
+    @ElementCollection
     private val modules: MutableSet<Module> = mutableSetOf()
 
     fun registerStudent(student: Student): Pair<Course, CourseStudent> {
