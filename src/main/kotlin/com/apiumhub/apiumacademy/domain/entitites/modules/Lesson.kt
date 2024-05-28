@@ -9,7 +9,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "Lessons")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Embeddable
 abstract class Lesson(
     @EmbeddedId open val id: LessonId,
     @Convert(converter = LessonNameConverter::class) open val name: LessonName,

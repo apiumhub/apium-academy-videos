@@ -5,9 +5,10 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "modules")
+@Embeddable
 class Module(@EmbeddedId val id: ModuleId) {
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = [CascadeType.ALL])//TODO Discuss EAGER fetch
+    @ElementCollection
     val lessons: MutableSet<Lesson> = mutableSetOf()
 
     fun addLesson(lesson: Lesson) {
