@@ -6,19 +6,22 @@ import com.apiumhub.apiumacademy.application.dto.course.response.toCourseDto
 import com.apiumhub.apiumacademy.application.dto.module.lessons.request.CreateLessonRequestDto
 import com.apiumhub.apiumacademy.application.dto.module.lessons.response.CourseLessonResponseDto
 import com.apiumhub.apiumacademy.domain.entitites.Course
-import com.apiumhub.apiumacademy.domain.entitites.CourseStudent
 import com.apiumhub.apiumacademy.domain.repositories.CourseRepository
+import com.apiumhub.apiumacademy.domain.repositories.CourseStudentRepository
 import com.apiumhub.apiumacademy.domain.repositories.StudentRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveInteger
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CourseService(
-    private val studentRepository: StudentRepository, private val courseRepository: CourseRepository
+    private val studentRepository: StudentRepository,
+    private val courseRepository: CourseRepository,
+    private val courseStudentRepository: CourseStudentRepository
 ) {
     fun findById(id: String): CourseResponseDto? = courseRepository.findById(CourseId(id)).getOrNull()?.toCourseDto()
 
@@ -27,23 +30,30 @@ class CourseService(
     fun insert(course: CreateCourseRequestDto) =
         courseRepository.save(
             Course.create(
-                CourseName(course.name), PositiveInteger(course.maxStudents)
+                CourseName(course.name),
+                PositiveInteger(course.maxStudents)
             )
         ).toCourseDto()
 
+    @Transactional
     fun registerStudentInCourse(courseId: String, studentId: String) {
         val student = studentRepository.findStudentByStudentId(StudentId(studentId))
         val course = courseRepository.findCourseByCourseId(CourseId(courseId))
-        val courseStudent = CourseStudent.create(course, student)
-        course.registerStudent(student)
-        courseRepository.save(course)
+        val courseStudent = course.registerStudent(student)
+        courseRepository.save(courseStudent.first)
+        courseStudentRepository.save(courseStudent.second)
     }
 
+    @Transactional
     fun removeStudentFromCourse(courseId: String, studentId: String) {
-        val student = studentRepository.findStudentByStudentId(StudentId(studentId))
-        val course = courseRepository.findCourseByCourseId(CourseId(courseId))
-        course.removeStudent(student)
-        courseRepository.save(course)
+        val studentId = StudentId(studentId)
+        val courseId = CourseId(courseId)
+        val student = studentRepository.findStudentByStudentId(studentId)
+        val course = courseRepository.findCourseByCourseId(courseId)
+        val courseStudent = courseStudentRepository.findCourseStudentByStudentIdAndCourseId(studentId, courseId)
+        val updatedCourse = course.removeStudent(student, courseStudent)
+        courseStudentRepository.delete(courseStudent)
+        courseRepository.save(updatedCourse)
     }
 
     fun addLessonToCourse(courseId: String, lesson: CreateLessonRequestDto) {

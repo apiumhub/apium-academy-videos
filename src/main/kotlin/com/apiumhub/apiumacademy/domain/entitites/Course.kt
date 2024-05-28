@@ -1,6 +1,7 @@
 package com.apiumhub.apiumacademy.domain.entitites
 
 import com.apiumhub.apiumacademy.domain.entitites.modules.Module
+import com.apiumhub.apiumacademy.domain.exceptions.StudentsInCourseLimitReachedException
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseNameConverter
@@ -19,28 +20,19 @@ class Course private constructor(
     @Convert(converter = PositiveIntegerConverter::class)
     private var currentRegisteredStudents: PositiveInteger = PositiveInteger(0)
 
-//    @OneToMany(mappedBy = "course")
-//    var courseTeachers: MutableSet<CourseTeacher> = mutableSetOf()
-
     @ManyToMany
     private val modules: MutableSet<Module> = mutableSetOf()
 
-    fun registerStudent(student: Student): CourseStudent {
-        TODO()
-//        if (currentRegisteredStudents.value == maxRegisteredStudents.value) throw StudentsInCourseLimitReachedException(
-//            maxRegisteredStudents.value
-//        )
-//        currentRegisteredStudents++
-//        registeredStudentsIds.add(student.id)
+    fun registerStudent(student: Student): Pair<Course, CourseStudent> {
+        if (currentRegisteredStudents.value == maxRegisteredStudents.value)
+            throw StudentsInCourseLimitReachedException(maxRegisteredStudents.value)
+        currentRegisteredStudents++
+        return Pair(this, CourseStudent.create(this, student))
     }
 
-    fun removeStudent(student: Student) {
-        TODO()
-//        if (!registeredStudentsIds.contains(student.id)) {
-//            throw StudentNotInCourseException(student.id, courseId)
-//        }
-//        currentRegisteredStudents--
-//        registeredStudentsIds.remove(student.id)
+    fun removeStudent(student: Student, courseStudent: CourseStudent): Course {
+        currentRegisteredStudents--
+        return this
     }
 
     fun isStudentRegistered(student: Student): Boolean {
@@ -64,7 +56,6 @@ class Course private constructor(
     }
 
     companion object {
-        fun create(name: CourseName, maxStudents: PositiveInteger) =
-            Course(CourseId(), name, maxStudents)
+        fun create(name: CourseName, maxStudents: PositiveInteger) = Course(CourseId(), name, maxStudents)
     }
 }
