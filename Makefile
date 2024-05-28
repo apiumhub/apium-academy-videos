@@ -1,3 +1,11 @@
-.PHONY: start
+.PHONY: build start stop
+.DEFAULT_GOAL: build
+
+build:
+	./run-build.sh
+
 start:
-	docker compose -f ./infrastructure/local/docker-compose.yml up -d
+	./services.sh start
+
+stop:
+	./services.sh stop
