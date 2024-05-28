@@ -15,7 +15,6 @@ import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.Posi
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
 import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
-import kotlin.jvm.optionals.getOrNull
 
 @Service
 class CourseService(
@@ -23,7 +22,7 @@ class CourseService(
     private val courseRepository: CourseRepository,
     private val courseStudentRepository: CourseStudentRepository
 ) {
-    fun findById(id: String): CourseResponseDto? = courseRepository.findById(CourseId(id)).getOrNull()?.toCourseDto()
+    fun findById(id: String): CourseResponseDto? = courseRepository.findCourseByCourseId(CourseId(id)).toCourseDto()
 
     fun findAll() = courseRepository.findAll().map { it.toCourseDto() }
 
@@ -45,13 +44,13 @@ class CourseService(
     }
 
     @Transactional
-    fun removeStudentFromCourse(courseId: String, studentId: String) {
-        val studentId = StudentId(studentId)
-        val courseId = CourseId(courseId)
-        val student = studentRepository.findStudentByStudentId(studentId)
+    fun removeStudentFromCourse(requestCourseId: String, requestStudentId: String) {
+        val shortId = StudentId(requestStudentId)
+        val courseId = CourseId(requestCourseId)
+        val student = studentRepository.findStudentByStudentId(shortId)
         val course = courseRepository.findCourseByCourseId(courseId)
-        val courseStudent = courseStudentRepository.findCourseStudentByStudentIdAndCourseId(studentId, courseId)
-        val updatedCourse = course.removeStudent(student, courseStudent)
+        val courseStudent = courseStudentRepository.findCourseStudentByStudentIdAndCourseId(shortId, courseId)
+        val updatedCourse = course.removeStudent(student)
         courseStudentRepository.delete(courseStudent)
         courseRepository.save(updatedCourse)
     }
