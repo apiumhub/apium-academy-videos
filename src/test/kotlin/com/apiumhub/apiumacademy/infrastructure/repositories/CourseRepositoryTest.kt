@@ -7,7 +7,6 @@ import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
 import com.apiumhub.apiumacademy.domain.valueobjects.shared.positiveInteger.PositiveInteger
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -31,8 +30,7 @@ class CourseRepositoryTest {
     }
 
     @Test
-    @Disabled
     fun `should throw exception when course not found by id`() {
-        assertThrows<CourseNotFoundException> { courseRepository.findCourseById(CourseId(UUID.randomUUID())) }
+        assertThrows<CourseNotFoundException> { courseRepository.findCourseByCourseId(CourseId(UUID.randomUUID())) }
     }
 }

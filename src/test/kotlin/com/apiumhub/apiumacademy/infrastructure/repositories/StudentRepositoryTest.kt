@@ -5,7 +5,6 @@ import com.apiumhub.apiumacademy.domain.exceptions.StudentNotFoundException
 import com.apiumhub.apiumacademy.domain.repositories.StudentRepository
 import com.apiumhub.apiumacademy.domain.valueobjects.student.studentId.StudentId
 import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
 import org.junit.jupiter.api.assertThrows
@@ -29,9 +28,7 @@ class StudentRepositoryTest {
     }
 
     @Test
-    @Disabled
     fun `should throw exception when student not found by id`() {
-        //TODO
-        assertThrows<StudentNotFoundException> { studentRepository.findStudentById(StudentId(UUID.randomUUID())) }
+        assertThrows<StudentNotFoundException> { studentRepository.findStudentByStudentId(StudentId(UUID.randomUUID())) }
     }
 }
