@@ -4,4 +4,4 @@ import jakarta.persistence.Embeddable
 import jakarta.persistence.Embedded
 
 @Embeddable
-data class StudentName(@Embedded val value: String)
+data class StudentName(val name: String)

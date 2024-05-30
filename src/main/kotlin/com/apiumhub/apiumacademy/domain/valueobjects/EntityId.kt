@@ -1,8 +1,9 @@
 package com.apiumhub.apiumacademy.domain.valueobjects
 
-import java.io.Serializable
+import jakarta.persistence.Embeddable
 import java.util.*
 
-abstract class EntityId : Serializable {
+@Embeddable
+abstract class EntityId {
     abstract val id: UUID
 }
