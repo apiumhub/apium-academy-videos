@@ -12,9 +12,8 @@ import java.util.*
 
 @Table(name = "Students")
 @Entity
-class Student(
-    @EmbeddedId val studentId: StudentId,
-    @Embedded val name: StudentName
+class Student private constructor(
+    @EmbeddedId val studentId: StudentId, @Embedded val name: StudentName
 ) : AggregateRoot<StudentId>() {
 
     companion object {

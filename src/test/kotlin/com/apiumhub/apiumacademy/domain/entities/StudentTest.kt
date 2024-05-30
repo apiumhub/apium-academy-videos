@@ -12,6 +12,6 @@ class StudentTest {
     fun `should create a student`() {
         val studentName = "Some student name"
         val student = Student.create(StudentName(studentName))
-        assertEquals(studentName, student.name.value)
+        assertEquals(studentName, student.name.name)
     }
 }

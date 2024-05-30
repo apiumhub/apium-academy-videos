@@ -10,6 +10,6 @@ class CourseTest {
     fun `should create a course`() {
         val courseName = "Some course name"
         val course = Student.create(StudentName(courseName))
-        assertEquals(courseName, course.name.value)
+        assertEquals(courseName, course.name.name)
     }
 }

@@ -11,7 +11,7 @@ import java.util.*
 
 @Table(name = "Courses")
 @Entity
-class Course(
+class Course private constructor(
     @EmbeddedId val courseId: CourseId,
     @Embedded val name: CourseName
 ) : AggregateRoot<CourseId>() {
