@@ -3,10 +3,7 @@ package com.apiumhub.apiumacademy.domain.entitites
 import com.apiumhub.apiumacademy.domain.valueobjects.AggregateRoot
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseId.CourseId
 import com.apiumhub.apiumacademy.domain.valueobjects.course.courseName.CourseName
-import jakarta.persistence.Embedded
-import jakarta.persistence.EmbeddedId
-import jakarta.persistence.Entity
-import jakarta.persistence.Table
+import jakarta.persistence.*
 import java.util.*
 
 @Table(name = "Courses")
